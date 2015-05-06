@@ -2,7 +2,7 @@
 require('express')()
 
   .get('/ping',function( req, res ){
-    res.send( 'v1: '+new Date().toISOString() )
+    res.send( 'v2: '+new Date().toISOString() )
   })
 
-  .listen( 3000 )
+  .listen( parseInt(process.argv[2],10) || 3000 )
