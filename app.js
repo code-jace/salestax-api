@@ -34,6 +34,8 @@ require('express')()
     res.send( 'v4: '+new Date().toISOString() )
   })
 
+  .use( require('body-parser').json() )
+
   .use( seneca.export('web') )
 
   .listen(WEB_PORT,WEB_HOST)
