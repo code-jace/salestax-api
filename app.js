@@ -5,8 +5,9 @@ var seneca = require('seneca')()
 
       .add('role:api,path:salestax',function( args, done ){
         this.act('role:salestax,cmd:calculate',{
-          net:     parseInt(args.net,10),
-          country: args.country
+          net:      parseInt(args.net,10),
+          country:  args.country,
+          category: args.category
         },done)
       })
 
@@ -26,6 +27,8 @@ require('express')()
   .get('/ping',function( req, res ){
     res.send( 'v3: '+new Date().toISOString() )
   })
+
+  .use( require('body-parser').json() )
 
   .use( seneca.export('web') )
 
