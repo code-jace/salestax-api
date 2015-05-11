@@ -1,12 +1,16 @@
+var WEB_PORT = process.env.WEB_PORT || 51000
+var WEB_HOST = process.env.WEB_HOST || 'localhost'
+var ACT_PORT = process.env.ACT_PORT || 51001
+var ACT_HOST = process.env.ACT_HOST || 'localhost'
 
-var PORT = process.env.PORT || 51003
 
 var seneca = require('seneca')()
 
       .add('role:api,path:salestax',function( args, done ){
         this.act('role:salestax,cmd:calculate',{
-          net:     parseInt(args.net,10),
-          country: args.country
+          net:      parseInt(args.net,10),
+          country:  args.country,
+          category: args.category
         },done)
       })
 
@@ -18,15 +22,18 @@ var seneca = require('seneca')()
         }
       }})
 
-      .client( PORT )
+      .client({
+        port: ACT_PORT,
+        host: ACT_HOST,
+      })
 
 
 require('express')()
 
   .get('/ping',function( req, res ){
-    res.send( 'v3: '+new Date().toISOString() )
+    res.send( 'v4: '+new Date().toISOString() )
   })
 
   .use( seneca.export('web') )
 
-  .listen( parseInt(process.argv[2],10) || 51000 )
+  .listen(WEB_PORT,WEB_HOST)
