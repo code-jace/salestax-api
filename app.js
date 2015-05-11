@@ -1,8 +1,30 @@
 
+var seneca = require('seneca')()
+
+      .add('role:api,path:salestax',function( args, done ){
+        this.act('role:salestax,cmd:calculate',{
+          net:     parseInt(args.net,10),
+          country: args.country
+        },done)
+      })
+
+      .act('role:web',{use:{
+        prefix: '/api',
+        pin:    'role:api,path:*',
+        map: {
+          salestax: true,
+        }
+      }})
+
+      .client(51001)
+
+
 require('express')()
 
   .get('/ping',function( req, res ){
-    res.send( 'v2: '+new Date().toISOString() )
+    res.send( 'v3: '+new Date().toISOString() )
   })
 
-  .listen( parseInt(process.argv[2],10) || 3000 )
+  .use( seneca.export('web') )
+
+  .listen( parseInt(process.argv[2],10) || 51000 )

@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/senecajs/salestax-api",
   "dependencies": {
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "seneca": "^0.6.1"
   }
 }
