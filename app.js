@@ -1,4 +1,6 @@
 
+var PORT = process.env.PORT || 51003
+
 var seneca = require('seneca')()
 
       .add('role:api,path:salestax',function( args, done ){
@@ -16,7 +18,7 @@ var seneca = require('seneca')()
         }
       }})
 
-      .client(51001)
+      .client( PORT )
 
 
 require('express')()
